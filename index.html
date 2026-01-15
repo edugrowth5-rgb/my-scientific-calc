@@ -1,75 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific PWA Calc</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Professional Calculator</title>
     <style>
-        /* CSS: Modern Dark Look */
-        body { background: #121212; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; }
-        .calc-card { background: #1e1e1e; padding: 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); width: 320px; }
-        #display { width: 100%; height: 60px; background: none; border: none; color: #00ff88; text-align: right; font-size: 2rem; margin-bottom: 20px; outline: none; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-        button { height: 60px; border-radius: 15px; border: none; background: #2c2c2c; color: white; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
-        button:active { transform: scale(0.95); background: #3d3d3d; }
-        .sci { background: #383838; color: #00ff88; font-size: 0.9rem; }
-        .op { background: #ff9f0a; color: white; }
-        .eq { background: #00ff88; color: #000; grid-column: span 2; }
+        body { background: #121212; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .calc-card { background: #1e1e1e; padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 320px; }
+        #display { width: 100%; height: 60px; background: none; border: none; color: #00ff88; text-align: right; font-size: 1.5rem; margin-bottom: 20px; outline: none; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        button { height: 50px; border-radius: 12px; border: none; background: #333; color: white; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:active { transform: scale(0.95); }
+        .fn { color: #00ff88; font-size: 0.75rem; } /* Scientific Buttons */
+        .mem { color: #ff9500; font-size: 0.75rem; } /* Memory Buttons */
+        .op { background: #ff9500; color: white; } /* Operations */
+        .eq { background: #00ff88; color: #121212; grid-column: span 2; }
         .ac { background: #ff453a; }
     </style>
 </head>
 <body>
 
 <div class="calc-card">
-    <input type="text" id="display" readonly value="0">
+    <input type="text" id="display" readonly placeholder="0">
+    
     <div class="grid">
-        <button class="sci" onclick="push('Math.sin(')">sin</button>
-        <button class="sci" onclick="push('Math.cos(')">cos</button>
-        <button class="sci" onclick="push('Math.sqrt(')">√</button>
-        <button class="sci" onclick="push('**')">xʸ</button>
-        
-        <button class="ac" onclick="clr()">AC</button>
-        <button onclick="del()">DEL</button>
-        <button class="sci" onclick="push('Math.PI')">π</button>
+        <button class="mem" onclick="clearGT()">GT</button>
+        <button class="mem" onclick="markup()">MU</button>
+        <button class="mem" onclick="memRecall()">MRC</button>
+        <button class="mem" onclick="memMinus()">M-</button>
+
+        <button class="mem" onclick="memPlus()">M+</button>
+        <button class="fn" onclick="push('Math.sin(')">sin</button>
+        <button class="fn" onclick="push('Math.cos(')">cos</button>
+        <button class="fn" onclick="push('Math.tan(')">tan</button>
+
+        <button class="fn" onclick="push('1/Math.sin(')">cosec</button>
+        <button class="fn" onclick="push('1/Math.cos(')">sec</button>
+        <button class="fn" onclick="push('1/Math.tan(')">cot</button>
         <button class="op" onclick="push('/')">÷</button>
-        
+
+        <button class="fn" onclick="push('Math.sqrt(')">√</button>
+        <button class="fn" onclick="push('Math.PI')">π</button>
+        <button class="ac" onclick="document.getElementById('display').value = ''">AC</button>
+        <button onclick="backspace()">DEL</button>
+
         <button onclick="push('7')">7</button>
         <button onclick="push('8')">8</button>
         <button onclick="push('9')">9</button>
         <button class="op" onclick="push('*')">×</button>
-        
+
         <button onclick="push('4')">4</button>
         <button onclick="push('5')">5</button>
         <button onclick="push('6')">6</button>
         <button class="op" onclick="push('-')">-</button>
-        
+
         <button onclick="push('1')">1</button>
         <button onclick="push('2')">2</button>
         <button onclick="push('3')">3</button>
         <button class="op" onclick="push('+')">+</button>
-        
+
         <button onclick="push('0')">0</button>
         <button onclick="push('.')">.</button>
         <button class="eq" onclick="solve()">=</button>
     </div>
+
+    <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #333;">
+        <a href="https://youtube.com/@[AapkaChannel]" target="_blank" 
+           style="background: #FF0000; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 0.7rem; font-weight: bold;">
+           ▶ Watch Health Tips
+        </a>
+        <p style="color: #00ff88; margin: 10px 0 0 0; font-size: 0.7rem;">Developed by [Aapka Naam]</p>
+    </div>
+</div>
+
+<div id="healthPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:999; justify-content:center; align-items:center;">
+    <div style="background:#1e1e1e; padding:25px; border-radius:20px; width:80%; max-width:280px; text-align:center; border:2px solid #00ff88;">
+        <h3 style="color:#00ff88; margin-top:0;">Health Tip 🌿</h3>
+        <p style="color:white; font-size:0.85rem;">सुबह तांबे के बर्तन का पानी पीना सेहत के लिए वरदान है!</p>
+        <button onclick="closePopup()" style="background:#00ff88; color:#121212; padding:8px 20px; border-radius:10px; font-weight:bold;">OK</button>
+    </div>
 </div>
 
 <script>
-    /* JS: Logic */
-    let d = document.getElementById('display');
-    function push(v) { if(d.value === '0') d.value = v; else d.value += v; }
-    function clr() { d.value = '0'; }
-    function del() { d.value = d.value.slice(0, -1) || '0'; }
-    function solve() {
-        try { 
-            // साइंटिफिक कैलकुलेशन के लिए eval का इस्तेमाल
-            d.value = eval(d.value); 
-        } catch { 
-            d.value = "Error"; 
-            setTimeout(clr, 1000);
-        }
+    let memory = 0;
+    let grandTotal = 0;
+    let mrcClickCount = 0;
+
+    function push(val) { document.getElementById('display').value += val; }
+    
+    function backspace() {
+        let exp = document.getElementById('display').value;
+        document.getElementById('display').value = exp.substring(0, exp.length - 1);
     }
+
+    function memPlus() { memory += parseFloat(document.getElementById('display').value) || 0; document.getElementById('display').value = ""; }
+    function memMinus() { memory -= parseFloat(document.getElementById('display').value) || 0; document.getElementById('display').value = ""; }
+    
+    function memRecall() {
+        mrcClickCount++;
+        if(mrcClickCount === 1) document.getElementById('display').value = memory;
+        else { memory = 0; document.getElementById('display').value = "0"; mrcClickCount = 0; }
+    }
+
+    function clearGT() { document.getElementById('display').value = grandTotal; }
+    function markup() { let val = parseFloat(document.getElementById('display').value) || 0; document.getElementById('display').value = val * 1.1; }
+
+    function solve() {
+        let res = document.getElementById('display').value;
+        try {
+            // Auto-close brackets
+            let openBrackets = (res.match(/\(/g) || []).length;
+            let closeBrackets = (res.match(/\)/g) || []).length;
+            for (let i = 0; i < (openBrackets - closeBrackets); i++) res += ')';
+
+            // Convert degree to radian for sin/cos/tan
+            res = res.replace(/Math\.(sin|cos|tan)\(([^)]+)\)/g, "Math.$1($2 * Math.PI / 180)");
+
+            let result = eval(res);
+            grandTotal += result;
+            document.getElementById('display').value = Number(result.toFixed(8));
+        } catch (e) { document.getElementById('display').value = "Error"; }
+    }
+
+    // Popup Logic
+    window.onload = function() { setTimeout(() => { document.getElementById('healthPopup').style.display = 'flex'; }, 2000); };
+    function closePopup() { document.getElementById('healthPopup').style.display = 'none'; }
 </script>
 
 </body>
