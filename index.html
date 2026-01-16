@@ -5,37 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoreByte Pro Calc</title>
     
-    <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
+    <meta name="theme-color" content="#add8e6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#add8e6">
     
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="https://ui-avatars.com/api/?name=CB&background=1c1c1c&color=00ff88&size=512&bold=true" type="image/png">
+    <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=CB&background=1c1c1c&color=00ff88&size=512&bold=true">
+
     <style>
         body { 
-            background: #ffffff; /* सफ़ेद बैकग्राउंड */
+            background: #add8e6; /* लाइट ब्लू (Light Blue) बैकग्राउंड */
             font-family: 'Segoe UI', sans-serif; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
             margin: 0; 
+            overflow: hidden;
         }
 
         .calc-card { 
-            background: #f4f4f4; /* हल्का ग्रे कार्ड */
+            background: #1c1c1c; /* कार्ड का रंग गहरा ही रखा है ताकि बटन चमकें */
             padding: 20px; 
             border-radius: 25px; 
             width: 90%; 
             max-width: 360px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            border: 1px solid #ddd;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); 
+            border: 2px solid #333;
         }
 
         #display { 
             width: 100%; 
             height: 90px; 
-            background: #e0e0e0; /* इनपुट/आउटपुट बॉक्स ग्रे */
+            background: #e0e0e0; /* इनपुट बॉक्स ग्रे */
             border: none; 
             border-radius: 15px;
-            color: #1a1a1a; 
+            color: #000; 
             text-align: right; 
             font-size: 2.5rem; 
             margin-bottom: 20px; 
@@ -43,7 +49,6 @@
             padding: 15px; 
             box-sizing: border-box;
             font-weight: bold;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .grid { 
@@ -56,36 +61,36 @@
             height: 60px; 
             border-radius: 12px; 
             border: none; 
-            background: #fff; 
-            color: #333; 
+            background: #333; 
+            color: white; 
             font-size: 1rem; 
             font-weight: bold; 
             cursor: pointer; 
-            transition: 0.2s; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: 0.1s; 
         }
 
-        button:active { transform: scale(0.92); background: #eee; }
+        button:active { transform: scale(0.92); background: #555; }
 
-        /* Arithmetic Operators का साइज बढ़ाना */
+        /* Arithmetic Operators (+, -, *, /) साइज बढ़ा दिया */
         .op { 
             background: #ff9500; 
             color: white; 
-            font-size: 1.5rem; /* साइज बड़ा किया गया */
+            font-size: 1.6rem; 
         } 
 
-        .fn { color: #007bff; background: #eef6ff; } 
-        .mem { color: #555; background: #ddd; font-size: 0.8rem; } 
-        .eq { background: #00ff88; color: #000; font-size: 1.5rem; }
+        .fn { color: #00ff88; background: #262626; } 
+        .mem { color: #ff9500; background: #262626; font-size: 0.8rem; } 
+        .eq { background: #00ff88; color: #000; font-size: 1.6rem; }
         .ac { background: #ff453a; color: white; }
-        .check { background: #eee; color: #555; font-size: 0.7rem; }
+        .check { background: #444; color: #00ff88; font-size: 0.7rem; }
 
         .footer {
             text-align: center; 
             margin-top: 20px; 
-            font-size: 0.8rem;
-            color: #888;
+            border-top: 1px solid #444; 
+            padding-top: 10px;
         }
+        .dev-name { color: #fff; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -136,12 +141,11 @@
     </div>
 
     <div class="footer">
-        © 2026 | <b>CoreByte™</b>
+        <span class="dev-name">© 2026 | Developed by: <b style="color:#00ff88;">CoreByte™</b></span>
     </div>
 </div>
 
 <script>
-    // (पुराना Logic यहाँ रहेगा)
     let memory = 0; let grandTotal = 0; let history = []; let historyIndex = -1;
     function push(val) { document.getElementById('display').value += val; }
     function backspace() { let exp = document.getElementById('display').value; document.getElementById('display').value = exp.substring(0, exp.length - 1); }
