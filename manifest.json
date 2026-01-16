@@ -1,5 +1,5 @@
 {
-  "short_name": "AccuCalc Pro",
+  "short_name": "CoreByte Calc",
   "name": "Professional Account & Science Calculator",
   "icons": [
     {
@@ -13,3 +13,4 @@
   "theme_color": "#1c1c1c",
   "background_color": "#1c1c1c"
 }
+
